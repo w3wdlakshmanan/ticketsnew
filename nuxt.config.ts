@@ -10,10 +10,5 @@ export default {
   },
   css: ["~/assets/css/main.css"],
   plugins: ["~/plugins/preline.client.ts"],
-  devServer: {
-    https: {
-      key: 'localhost-key.pem',
-      cert: 'localhost.pem'
-    }
-  },
+ 
 };

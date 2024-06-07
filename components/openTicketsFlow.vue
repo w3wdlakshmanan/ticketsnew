@@ -191,13 +191,13 @@
         <div class="modal-content text-left h-full "><div class="fixed top-0 bg-white md:w-full md:px-[5%] border-b shadow-md md:block hidden">
       <img src="public/logo-2.jpeg" alt="" >
     </div>
-          <div class="bg-[#eeeff4] md:bg-white py-5 md:mt-[5%]">
-          <div class="flex justify-between w-full items-center container md:md:w-[90%] mx-auto">
+          <div class="bg-[#eeeff4] md:bg-white md:py-5 md:mt-[5%]">
+          <div class="flex justify-between w-full items-center container md:w-[90%] mx-auto">
             <div class="p-3 md:py-6  md:text-[30px]" >
               Hi {{ username && username }},<br />
               We are here to help you
             </div>
-            <div class="block md:pl-6 ">
+            <div class="md:block hidden  md:pl-6 ">
               <button
                 data-hs-overlay="#hs-vertically-centered-scrollable-modal"
                 type="button"
