@@ -11,13 +11,13 @@ export default {
     // Get values from URL query parameters
     const clientCode = this.$route.query.clientcode
       ? this.$route.query.clientcode 
-      : "GZ10219";
+      : "";
     const clientName = this.$route.query.clientname
       ? this.$route.query.clientname 
-      : "RAMANADHAN";
+      : "";
     const clientemail = this.$route.query.clientemail
       ? this.$route.query.clientemail
-      : "eswaran@gwcindia.in";
+      : "";
     // Do something with clientCode and clientName
     // this.clientCode = "GZ10219";
     // this.clientName = "RAJA ESWARAN";
