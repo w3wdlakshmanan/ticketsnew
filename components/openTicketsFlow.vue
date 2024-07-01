@@ -1,7 +1,8 @@
 <template>
+<div>
   <div class="">
     <!-- loader -->
-    <div v-if="loading" class="container md:md:w-[90%] md:mx-auto">
+    <!-- <div v-if="loading" class="container md:md:w-[90%] md:mx-auto">
       <div v-for="data in 4" :key="data">
         <div class="shadow-xl rounded-xl p-4 bg-white mt-4">
           <div class="pt-3">
@@ -18,15 +19,15 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
     <!-- card section -->
     <div
-      v-if="tickets.length != 0"
+      v-if="ticketData.length != 0"
       class="md:flex md:gap-8 container md:mx-auto md:md:w-[90%]"
     >
       <!-- CARD -->
-      <div v-if="tickets.length != 0" class="w-full md:w-[90%]">
-        <div v-for="(data, i) in tickets" :key="i" class="py-2">
+      <div v-if="ticketData.length != 0" class="w-full md:w-[90%]">
+        <div v-for="(data, i) in ticketData" :key="i" class="py-2">
           <div
             class="flex flex-col bg-white shadow-xl rounded-xl p-4 md:p-5"
             @click="selectedOpenTicket(data)"
@@ -790,18 +791,21 @@
       </div>
     </div>
   </div>
-    <div v-if="isCreate">
+    <!-- <div v-if="isCreate">
         <createNewTicket @go-to-home="goBackFunc" />
+      </div> -->
       </div>
 </template>
 
 <script lang="ts">
 import axios from "axios";
 import DOMPurify from "dompurify";
-import { stringify } from "postcss";
+import { defineComponent, onMounted, watch } from 'vue';
+
 
 export default {
   mounted() {
+    console.log("Component mounted");
       this.username = localStorage.getItem("clientname");
     this.fetchTickets();
   },
@@ -1006,10 +1010,11 @@ export default {
           "https://g1.gwcindia.in/ticket-api/get-user-all-tickets.php",
           formData
         );
-        this.tickets = response.data.data.filter(
+        ticketData = response.data.data.filter(
           (item: any) =>
             item.status.name === "Open" || item.status.name === "In-Progress"
         );
+        console.log("success")
       } catch (error) {
         error.message || "An error occurred";
       } finally {
@@ -1131,6 +1136,9 @@ export default {
       this.isCreate = true;
       document.body.style.overflow = "hidden";
     },
+  },
+     props: {
+    ticketData: Array, 
   },
 };
 </script>

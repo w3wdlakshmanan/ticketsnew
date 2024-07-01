@@ -1,7 +1,9 @@
 <template>
   <div class="bg-[#FAFBFF] roboto-thin">
-    
-    <div>
+     <div v-if="this.loading == true" class="w-full md:max-w-3xl">
+      <loader />
+    </div>
+    <div v-else>
       <!-- tabs -->
       <div class="container md:w-[90%] md:mx-auto bg-[#eeeff4] md:bg-white md:mt-[5%]">
         <div class="md:flex md:justify-between w-full md:items-center md:px-[10px]">
@@ -53,13 +55,13 @@
           v-if="setTab == 1"
           :class="isCreate == true ? 'overflow-y-hidden' : ''"
         >
-          <openTicketsFlow />
+          <openTicketsFlow :ticketData= this.openTicketsCount />
         </div>
         <div
           v-if="setTab == 2"
           :class="isCreate == true ? 'overflow-y-hidden' : ''"
         >
-          <resolvedTicketFlow />
+          <resolvedTicketFlow :ticketData= this.resolvedTickets />
         </div>
       </div>
       <div class="fixed-bottom p-3 md:hidden block">
@@ -84,8 +86,7 @@
 import axios from "axios";
 export default {
   mounted() {
-//     this.username = localStorage.getItem("clientname");
-//  console.log(localStorage.getItem("clientname"),)
+
     this.fetchTickets();
   },
   data() {
@@ -109,7 +110,7 @@ export default {
       loading: boolean;
       $emit: Function;
     }) {
-      this.loading = true;
+      
 
       this.emailId = localStorage.getItem("clientemail");
       this.username = localStorage.getItem("clientname");
@@ -126,11 +127,13 @@ export default {
           (item: any) =>
             item.status.name === "Open" || item.status.name === "In-Progress"
         );
+        console.log( this.openTicketsCount ," this.openTicketsCount ")
         this.resolvedTickets = response.data.data.filter(
           (item: any) =>
             item.status.name === "Closed" ||
             item.status.name === "Awaiting Reply"
         );
+        console.log( this.resolvedTickets ," this.resolvedTickets ")
       } catch (error) {
         error.message || "An error occurred";
       } finally {
@@ -152,6 +155,7 @@ export default {
     },
     getTabId(this: { setTab: any }, id: any) {
       this.setTab = id;
+      this.fetchTickets();
     },
     openCreate(this: { isCreate: boolean }) {
       this.isCreate = true;

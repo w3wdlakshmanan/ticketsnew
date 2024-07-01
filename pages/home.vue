@@ -5,10 +5,8 @@
     </div>
       <div class="bg-[#FAFBFF] min-h-screen w-full ">
     
-    <div v-if="!loading" class="w-full md:max-w-3xl">
-      <loader />
-    </div>
-    <tabsSection v-else />
+ 
+    <tabsSection />
     <!-- class="w-full md:max-w-3xl" -->
   
   </div>
@@ -29,7 +27,7 @@ export default {
   mounted() {
     setTimeout(() => {
       this.loading = true;
-    }, 3000);
+    }, 1000);
   },
   data() {
     return {

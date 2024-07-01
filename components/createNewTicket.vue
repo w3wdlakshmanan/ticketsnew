@@ -334,7 +334,7 @@
               <button
                 type="button"
                 class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none"
-                @click="goBackToHome"
+                @click="goToHome"
               >
                 Go Back
               </button>
@@ -355,6 +355,7 @@
         </div>
       </div>
     </div>
+    <div></div>
   </div>
 </template>
 <script lang="ts">
@@ -403,7 +404,12 @@ export default {
   methods: {
     goToHome(this: { $emit: Function }) {
       this.$emit("go-to-home");
-    },
+           
+      },
+     
+
+    
+
     refreshPage() {
       window.location.reload();
     },
@@ -414,7 +420,7 @@ export default {
       refreshPage: Function;
     }) {
       this.opencreated = false;
-      this.refreshPage();
+      // this.refreshPage();
       this.goToHome();
     },
 
@@ -436,7 +442,7 @@ export default {
       formData.append("department", this.departmentIndex);
       formData.append("subject", this.payload.subject);
       formData.append("text", this.payload.text);
-
+formData.append("subCat",this.selectedSubCategory);
       const clientCode = localStorage.getItem("clientcode");
       if (clientCode) {
         formData.append("clientcode", clientCode);
@@ -451,10 +457,40 @@ export default {
           formData
         );
         this.statusData = response.data;
+        this.fetchTickets();
       } catch (error) {
         this.statusData = error;
       } finally {
         this.loader = false;
+      }
+    },
+     async fetchTickets(this: {
+      emailId: any;
+      tickets: any;
+      loading: boolean;
+      $emit: Function;
+    }) {
+      this.loading = true;
+
+      this.emailId = localStorage.getItem("clientemail");
+      const formData = new FormData();
+      formData.append("emailId", this.emailId);
+
+      try {
+        const response = await axios.post(
+          "https://g1.gwcindia.in/ticket-api/get-user-all-tickets.php",
+          formData
+        );
+        this.tickets = response.data.data.filter(
+          (item: any) =>
+            item.status.name === "Open" || item.status.name === "In-Progress"
+        );
+     
+        console.log("success")
+      } catch (error) {
+        error.message || "An error occurred";
+      } finally {
+        this.loading = false;
       }
     },
     readFileAsBase64(this: { attachment: any }, file: any) {
@@ -543,11 +579,13 @@ export default {
     selectSubCategory(this:{isSubOpen:boolean,selectedSubCategory:any},sub:any) {
       this.isSubOpen = false;
       this.selectedSubCategory = sub;
+      console.log(this.selectedSubCategory,"this.selectedSubCategory")
     },
     createDescriptText(this: { payload: any }, text: any) {
       this.payload.text = text;
     },
   },
+
 };
 </script>
 <style>

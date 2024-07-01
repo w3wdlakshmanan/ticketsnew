@@ -407,7 +407,7 @@ export default {
       formData.append("department", this.departmentIndex);
       formData.append("subject", this.payload.subject);
       formData.append("text", this.payload.text);
-
+formData.append("subCat",this.selectedSubCategory);
       const clientCode = localStorage.getItem("clientcode");
       formData.append("clientcode", clientCode);
 
