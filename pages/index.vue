@@ -38,7 +38,7 @@ export default {
       allDepartMentData: null,
       getDepartment: null,
       tickets: [],
-      loading: false,
+  
       error: null,
       emailId: "",
       resolvedTicketsData: [],
