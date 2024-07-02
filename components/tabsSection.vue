@@ -151,7 +151,7 @@ export default {
       window.location.reload();
     },
     goBackFunc(ticket) {
-      debugger;
+
       this.resolvedTickets = ticket
     .filter(
       (item) =>
