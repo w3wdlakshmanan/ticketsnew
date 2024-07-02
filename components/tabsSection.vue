@@ -1,6 +1,6 @@
 <template>
   <div class="bg-[#FAFBFF] roboto-thin">
-     <div v-if="this.loading == true" class="w-full md:max-w-3xl">
+     <div v-if="loading == true" class="w-full md:max-w-3xl">
       <loader />
     </div>
     <div v-else>
