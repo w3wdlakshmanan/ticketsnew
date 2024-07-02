@@ -378,7 +378,8 @@ export default {
       isCatOpen: false,
       isSubOpen: false,
       loader: false,
-
+   
+    tickets: [],
       selectedCategory: null,
       file: null,
       selectedSubCategory: null,
@@ -402,8 +403,8 @@ export default {
     this.getDeparmentData();
   },
   methods: {
-    goToHome(this: { $emit: Function }) {
-      this.$emit("go-to-home");
+    goToHome() {
+      this.$emit("go-to-home",this.tickets);
            
       },
      
@@ -429,6 +430,7 @@ export default {
       this.createpayload();
     },
     async createpayload(this: {
+      fetchTickets(): unknown;
       payload: any;
       statusData: any;
       stripHTML: any;
@@ -456,6 +458,7 @@ formData.append("subCat",this.selectedSubCategory);
           "https://g1.gwcindia.in/ticket-api/create-ticket.php",
           formData
         );
+         console.log("hello2")
         this.statusData = response.data;
         this.fetchTickets();
       } catch (error) {
@@ -481,10 +484,7 @@ formData.append("subCat",this.selectedSubCategory);
           "https://g1.gwcindia.in/ticket-api/get-user-all-tickets.php",
           formData
         );
-        this.tickets = response.data.data.filter(
-          (item: any) =>
-            item.status.name === "Open" || item.status.name === "In-Progress"
-        );
+        this.tickets = response.data.data;
      
         console.log("success")
       } catch (error) {

@@ -419,6 +419,7 @@ formData.append("subCat",this.selectedSubCategory);
           "https://g1.gwcindia.in/ticket-api/create-ticket.php",
           formData
         );
+        console.log("hello1")
         this.statusData = response.data;
       } catch (error) {
         this.statusData = error;

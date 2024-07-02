@@ -1,13 +1,19 @@
 <template>
   <div class="bg-[#FAFBFF] roboto-thin">
-     <div v-if="loading == true" class="w-full md:max-w-3xl">
+    <div v-if="loading == true" class="w-full md:max-w-3xl">
       <loader />
     </div>
     <div v-else>
       <!-- tabs -->
-      <div class="container md:w-[90%] md:mx-auto bg-[#eeeff4] md:bg-white md:mt-[5%]">
-        <div class="md:flex md:justify-between w-full md:items-center md:px-[10px]">
-          <div class="p-3 md:py-10 md:roboto-black  md:roboto-bold-italic md:text-[30px]">
+      <div
+        class="container md:w-[90%] md:mx-auto bg-[#eeeff4] md:bg-white md:mt-[5%]"
+      >
+        <div
+          class="md:flex md:justify-between w-full md:items-center md:px-[10px]"
+        >
+          <div
+            class="p-3 md:py-10 md:roboto-black md:roboto-bold-italic md:text-[30px]"
+          >
             Hi {{ username && username }},<br />
             We are here to help you
           </div>
@@ -28,7 +34,7 @@
           <div
             @click="getTabId(1)"
             :class="setTab == 1 ? 'border-b-2 border-blue-600 font-bold' : ''"
-            class="col-span-6  hover:border-b-2 hover:border-blue-600 text-blue-600 hover:font-bold cursor-pointer"
+            class="col-span-6 hover:border-b-2 hover:border-blue-600 text-blue-600 hover:font-bold cursor-pointer"
           >
             <div class="text-center pb-3">
               Open Tickets ({{ openTicketsCount && openTicketsCount.length }})
@@ -37,7 +43,7 @@
           <div
             @click="getTabId(2)"
             :class="setTab == 2 ? 'border-b-2 border-blue-600 font-bold' : ''"
-            class="col-span-6  text-blue-600 hover:font-bold cursor-pointer"
+            class="col-span-6 text-blue-600 hover:font-bold cursor-pointer"
           >
             <div class="text-center pb-3">
               Resolved tickets ({{ resolvedTickets && resolvedTickets.length }})
@@ -48,20 +54,20 @@
 
       <!-- card -->
       <div
-        class="pt-[15px]  pb-14"
+        class="pt-[15px] pb-14"
         :class="isCreate == true ? 'overflow-y-hidden' : ''"
       >
         <div
           v-if="setTab == 1"
           :class="isCreate == true ? 'overflow-y-hidden' : ''"
         >
-          <openTicketsFlow :ticketData= this.openTicketsCount />
+          <openTicketsFlow :ticketData="this.openTicketsCount" />
         </div>
         <div
           v-if="setTab == 2"
           :class="isCreate == true ? 'overflow-y-hidden' : ''"
         >
-          <resolvedTicketFlow :ticketData= this.resolvedTickets />
+          <resolvedTicketFlow :ticketData="this.resolvedTickets" />
         </div>
       </div>
       <div class="fixed-bottom p-3 md:hidden block">
@@ -86,7 +92,6 @@
 import axios from "axios";
 export default {
   mounted() {
-
     this.fetchTickets();
   },
   data() {
@@ -98,6 +103,10 @@ export default {
       setTab: 1,
       isCreate: false,
       resolvedCount: [],
+       
+    resolvedTickets: [],
+    // Ensure ticket is properly initialized
+   
       username: null,
       emailId: null,
     };
@@ -110,8 +119,6 @@ export default {
       loading: boolean;
       $emit: Function;
     }) {
-      
-
       this.emailId = localStorage.getItem("clientemail");
       this.username = localStorage.getItem("clientname");
       const formData = new FormData();
@@ -127,13 +134,13 @@ export default {
           (item: any) =>
             item.status.name === "Open" || item.status.name === "In-Progress"
         );
-        console.log( this.openTicketsCount ," this.openTicketsCount ")
+        console.log(this.openTicketsCount, " this.openTicketsCount ");
         this.resolvedTickets = response.data.data.filter(
           (item: any) =>
             item.status.name === "Closed" ||
             item.status.name === "Awaiting Reply"
         );
-        console.log( this.resolvedTickets ," this.resolvedTickets ")
+        console.log(this.resolvedTickets, " this.resolvedTickets ");
       } catch (error) {
         error.message || "An error occurred";
       } finally {
@@ -143,7 +150,25 @@ export default {
     refreshPage() {
       window.location.reload();
     },
-    goBackFunc(this: { isCreate: boolean; refreshPage: Function }) {
+    goBackFunc(ticket) {
+      debugger;
+      this.resolvedTickets = ticket
+    .filter(
+      (item) =>
+        item.status.name === "Closed" || item.status.name === "Awaiting Reply"
+    )
+    .map((ticket) => ({ ...ticket }));
+      console.log(this.resolvedTickets, " this.resolvedTickets ");
+     this.openTicketsCount = ticket
+    .filter(
+      (item) =>
+        item.status.name === "Open" || item.status.name === "In-Progress"
+    )
+    .map((ticket) => ({ ...ticket }));
+
+  // Filter tickets for closed and awaiting reply statuses, and create shallow copies
+
+      console.log("Tickets data received:", ticket);
       this.isCreate = false;
       document.body.style.overflow = "auto";
     },
@@ -165,7 +190,7 @@ export default {
 };
 </script>
 <style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
 .fixed-bottom {
   position: fixed;
   bottom: 0;
@@ -185,7 +210,7 @@ export default {
 .roboto-thin {
   font-family: "Roboto", sans-serif;
   font-weight: 500;
-  color:black;
+  color: black;
   font-style: normal;
 }
 
@@ -254,5 +279,5 @@ export default {
   font-weight: 900;
   font-style: italic;
 }
-
 </style>
+
