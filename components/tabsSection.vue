@@ -103,9 +103,7 @@ export default {
       setTab: 1,
       isCreate: false,
       resolvedCount: [],
-       
-    resolvedTickets: [],
-    // Ensure ticket is properly initialized
+
    
       username: null,
       emailId: null,

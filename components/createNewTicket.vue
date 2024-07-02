@@ -379,7 +379,6 @@ export default {
       isSubOpen: false,
       loader: false,
    
-    tickets: [],
       selectedCategory: null,
       file: null,
       selectedSubCategory: null,
