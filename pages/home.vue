@@ -25,9 +25,9 @@
 import axios from "axios";
 export default {
   mounted() {
-    setTimeout(() => {
-      this.loading = true;
-    }, 1000);
+    // setTimeout(() => {
+    //   this.loading = true;
+    // }, 1000);
   },
   data() {
     return {
